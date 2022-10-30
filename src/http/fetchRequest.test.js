@@ -1,11 +1,22 @@
-// import http from "./http";
-import fetchRequest from "./http/fetchRequest";
+import http from ".";
 
 const POST_RESPONSE = {
   userId: 1,
   id: 1,
   title: "Post 1 title",
   body: "Post 1 body",
+};
+
+const EXPECTED_RESOLVED_RESULT = {
+  userId: 1,
+  id: 1,
+  title: "Post 1 title",
+  body: "Post 1 body",
+};
+
+const EXPECTED_REJECTED_RESULT = {
+  data: null,
+  error: { message: "API failure", name: "Error" },
 };
 
 // global.fetch = jest.fn(() =>
@@ -28,25 +39,14 @@ afterEach(() => {
 
 describe("given a request", () => {
   test("when Promise is resolved then expected response should be returned", async () => {
-    const EXPECTED_RESOLVED_RESULT = {
-      userId: 1,
-      id: 1,
-      title: "Post 1 title",
-      body: "Post 1 body",
-    };
-    const data = await fetchRequest();
+    const data = await http.fetchRequest();
     expect(data).toEqual(EXPECTED_RESOLVED_RESULT);
   });
 
   test("when Promise is rejected then expected response should be returned", async () => {
     jest.spyOn(global, "fetch").mockRejectedValueOnce(new Error("API failure"));
 
-    const EXPECTED_RESOLVED_RESULT = {
-      data: null,
-      error: { message: "API failure", name: "Error" },
-    };
-
-    const data = await fetchRequest();
-    expect(data).toEqual(EXPECTED_RESOLVED_RESULT);
+    const data = await http.fetchRequest();
+    expect(data).toEqual(EXPECTED_REJECTED_RESULT);
   });
 });
