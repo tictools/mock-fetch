@@ -19,16 +19,8 @@ const EXPECTED_REJECTED_RESULT = {
   error: { message: "API failure", name: "Error" },
 };
 
-// global.fetch = jest.fn(() =>
-//   Promise.resolve({
-//     json: () => Promise.resolve(RESPONSE),
-//   })
-// );
-
 beforeEach(() => {
   jest.spyOn(global, "fetch").mockResolvedValue({
-    // json: jest.fn().mockResolvedValue(RESPONSE),
-    // json: jest.fn(() => Promise.resolve(RESPONSE)),
     json: () => Promise.resolve(POST_RESPONSE),
   });
 });
